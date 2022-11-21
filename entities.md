@@ -1,28 +1,28 @@
   # Описание сущностей
-  
-  ## Аккаунт (Account)
+   ## Пользователь (User)
   | Имя поля | Тип | Ограничения | Описание |
   |----------|-----|-------------|----------|
    |id|int|PK, NOT NULL, AUTO INCREMENT, UNIQUE|Первичный ключ|
+   |Role_id|int|FK, NOT NULL|Внешний ключ на роль|
+   |nickname|VARCHAR(32)|NOT NULL|Никнейм|
    |email|VARCHAR(32)|NOT NULL|Электронная почта|
    |password|VARCHAR(32)| NOT NULL, SHA-256|Пароль|
    |register_datetime|DATETIME|NOT NULL|Время регистрации|
    |last_login_datetime|DATETIME|NOT NULL|Последняя авторизация|
-  ## Пользователь (User)
-  | Имя поля | Тип | Ограничения | Описание |
-  |----------|-----|-------------|----------|
-   |id|int|PK, NOT NULL, AUTO INCREMENT, UNIQUE|Первичный ключ|
-   |Account_id|int|FK, NOT NULL, UNIQUE|Внешний ключ на пользователя|
-   |nickname|VARCHAR(32)|NOT NULL|Никнейм|
   ## Рецензия (Review)
   | Имя поля | Тип | Ограничения | Описание |
   |----------|-----|-------------|----------|
   |id|int|PK, NOT NULL, AUTO INCREMENT, UNIQUE|Первичный ключ|
-  |User_id|int|FK, NOT NULL|Внешний ключ на пользователя (автора рецензии)|
   |header|VARCHAR(128)|NOT NULL|Заголовок рецензии|
   |creation_time|DATETIME|NOT NULL|Время создания|
-  |Category_id|id|FK, NOT NULL|Внешний ключ на категорию|
-  |text|TEXT|NOT NULL|Текст|
+  |Category_id|int|FK, NOT NULL|Внешний ключ на категорию|
+  |text|VARCHAR(4096)|NOT NULL|Текст|
+  ## Рецензия и Пользователь (ReviewAndUser)
+  | Имя поля | Тип | Ограничения | Описание |
+  |----------|-----|-------------|----------|
+  |id|int|PK, NOT NULL, AUTO INCREMENT, UNIQUE|Первичный ключ|
+  |User_id|int|FK, NOT NULL|Внешний ключ на пользователя|
+  |Review_id|int|FK, NOT NULL|Внешний ключ на рецензию|
   ## Роль (Role)
   | Имя поля | Тип | Ограничения | Описание |
   |----------|-----|-------------|----------|
@@ -44,7 +44,7 @@
   | Имя поля | Тип | Ограничения | Описание |
   |----------|-----|-------------|----------|
   |id|int|PK, NOT NULL, AUTO INCREMENT, UNIQUE|Первичный ключ|
-  |text|TEXT|NOT NULL|Текст комментария|
+  |text|VARCHAR(2048)|NOT NULL|Текст комментария|
   |User_id|int|FK, NOT NULL|Внешний ключ на пользователя оставившего комментарий|
   |Review_id|int|FK, NOT NULL|Внешний ключ на рецензию|
   ## Логи (Logs)
@@ -55,9 +55,14 @@
   |datetime|DATETIME|NOT NULL|Время логирования|
   |type|VARCHAR(16)|NOT NULL|Тип лога|
   |representation|VARCHAR(256)|NOT NULL|Текстовое представление лога|
-  ## Пользователи и Роли (UsersAndRoles)
+  ## Архив пользователя (Archive)
   | Имя поля | Тип | Ограничения | Описание |
   |----------|-----|-------------|----------|
   |id|int|PK, NOT NULL, AUTO INCREMENT, UNIQUE|Первичный ключ|
-  |User_id|int|FK, NOT NULL|Внешний ключ на пользователя|
-  |Roles_id|int|FK, NOT NULL|Внешний ключ на роль|
+  |User_id|int|PK, NOT NULL, AUTO INCREMENT, UNIQUE|Внешний ключ|
+  ## Рецензия и Архив (ReviewAndArchive)
+  | Имя поля | Тип | Ограничения | Описание |
+  |----------|-----|-------------|----------|
+  |id|int|PK, NOT NULL, AUTO INCREMENT, UNIQUE|Первичный ключ|
+  |Review_id|int|FK, NOT NULL|Внешний ключ на рецензию|
+  |Archive_id|int|FK, NOT NULL|Внешний ключ на архив|
