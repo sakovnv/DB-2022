@@ -18,6 +18,8 @@ SELECT nickname From Users order by nickname;
 
 SELECT * FROM Review as review, Rating as rating WHERE review.id = rating.review_id AND rating.grade >= 4;
 
+SELECT AVG(grade), Rating.review_id, IF(AVG(grade) > 4, "Отличная", "Хорошая") FROM Rating WHERE Rating.review_id = 1;
+
 SELECT AVG(grade) FROM Rating WHERE Rating.review_id = 1;
 
 DELETE FROM Rating WHERE id = 3;

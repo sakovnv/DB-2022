@@ -59,5 +59,36 @@ FROM Rating
 LEFT JOIN Review ON Review.id = Rating.review_id
 GROUP BY Review.header;
 
+SELECT nickname as UsersAndComments
+FROM Users
+UNION SELECT text FROM Comment;
 
+SELECT * FROM Comment
+WHERE EXISTS
+(SELECT * FROM Review WHERE Comment.review_id = Review.id);
 
+SELECT * FROM Review
+WHERE NOT EXISTS
+(SELECT * FROM Comment WHERE Comment.review_id = Review.id);
+
+INSERT INTO Comment (User_id, Review_id, text)
+SELECT 1, 1, text FROM Review;
+
+SELECT AVG(Rating.grade), Review.header,
+CASE
+	WHEN AVG(Rating.grade) > 4
+		THEN "Рецензия Отличная"
+	WHEN AVG(Rating.grade) > 3
+		THEN "Рецензия неплохая"
+	WHEN AVG(Rating.grade) > 2
+		THEN "Рецензия плохая"
+	WHEN AVG(Rating.grade) > 0
+		THEN "Рецензия очень плохая"
+	ELSE ""
+END AS Status
+FROM Rating
+LEFT JOIN Review ON Review.id = Rating.review_id
+GROUP BY Review.header;
+
+SELECT * FROM Review
+CROSS JOIN Users;

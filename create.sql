@@ -60,7 +60,6 @@ CREATE TABLE IF NOT EXISTS Comment (
 CREATE TABLE IF NOT EXISTS Logs (
     id INT PRIMARY KEY AUTO_INCREMENT,
     User_id INT NOT NULL,
-    FOREIGN KEY (User_id) REFERENCES Users(id) ON DELETE CASCADE,
     datetime DATETIME NOT NULL,
     type VARCHAR(16) NOT NULL,
     representation VARCHAR(256) NOT NULL
@@ -78,3 +77,5 @@ CREATE TABLE IF NOT EXISTS ReviewAndArchive (
     FOREIGN KEY (Review_id) REFERENCES Review(id),
     FOREIGN KEY (Archive_id) REFERENCES Archive(id)
 );
+
+DROP TABLE Logs;
